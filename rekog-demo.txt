@@ -1,0 +1,162 @@
+# create the S3 bucket to store images
+aws s3api create-bucket --bucket w251-faces-demo --region us-west-2 --create-bucket-configuration LocationConstraint=us-west-2
+{
+    "Location": "http://w251-faces-demo.s3.amazonaws.com/"
+}
+
+# create collection in Rekognition to index the known faces to recognize
+aws rekognition create-collection --collection-id demo
+{
+    "StatusCode": 200,
+    "CollectionArn": "aws:rekognition:us-west-2:698986134831:collection/demo",
+    "FaceModelVersion": "3.0"
+}
+
+# upload Andy image
+aws s3api put-object --bucket w251-faces-demo --key andy1 --body andy1.jpeg
+{
+    "ETag": "\"389cb9e9c37b9aa5ef4a10a46a9d755e\""
+}
+
+# upload Tony image
+aws s3api put-object --bucket w251-faces-demo --key tony1 --body tony1.jpeg
+{
+    "ETag": "\"8e3b3ef87ad3c4395465d373aeaedcee\""
+}
+
+# index Andy image
+aws rekognition index-faces --image '{"S3Object":{"Bucket":"w251-faces-demo","Name":"andy1"}}' --collection-id demo --detection-attributes ALL --external-image-id andy1
+{
+    "FaceRecords": [
+        {
+            "Face": {
+                "FaceId": "bf639e7a-2980-49f1-8fe8-432eb7298eaf",
+                "BoundingBox": {
+                    "Width": 0.5341796875,
+                    "Height": 0.5341796875,
+                    "Left": 0.150390625,
+                    "Top": 0.1474609375
+                },
+                "ImageId": "a12ec0ab-9483-532b-8bfd-92422abd415a",
+                "ExternalImageId": "andy1",
+                "Confidence": 99.99425506591797
+            },
+            "FaceDetail": {
+                "BoundingBox": {
+                    "Width": 0.5341796875,
+                    "Height": 0.5341796875,
+                    "Left": 0.150390625,
+                    "Top": 0.1474609375
+                },
+                "AgeRange": {
+                    "Low": 26,
+                    "High": 44
+                },
+                "Smile": {
+                    "Value": true,
+                    "Confidence": 52.079017639160156
+                },
+                "Eyeglasses": {
+                    "Value": false,
+                    "Confidence": 99.99991607666016
+                },
+                "Sunglasses": {
+                    "Value": false,
+                    "Confidence": 99.92314910888672
+                },
+                "Gender": {
+                    "Value": "Male",
+                    "Confidence": 99.928955078125
+                },
+                "Beard": {
+                    "Value": false,
+                    "Confidence": 99.98513793945312
+                },
+                "Mustache": {
+                    "Value": false,
+                    "Confidence": 99.96569061279297
+                },
+                "EyesOpen": {
+                    "Value": true,
+                    "Confidence": 99.98834991455078
+                },
+                "MouthOpen": {
+                    "Value": false,
+                    "Confidence": 99.97541046142578
+                },
+                "Emotions": [
+                    {
+                        "Type": "HAPPY",
+                        "Confidence": 74.397216796875
+                    },
+                    {
+                        "Type": "CALM",
+                        "Confidence": 4.959166049957275
+                    },
+                    {
+                        "Type": "CONFUSED",
+                        "Confidence": 1.067042350769043
+                    }
+                ],
+                "Landmarks": [
+                    {
+                        "Type": "eyeLeft",
+                        "X": 0.3174372613430023,
+                        "Y": 0.3750925064086914
+                    }
+                ],
+                "Pose": {
+                    "Roll": -9.950139999389648,
+                    "Yaw": 8.217666625976562,
+                    "Pitch": -14.232149124145508
+                },
+                "Quality": {
+                    "Brightness": 49.990509033203125,
+                    "Sharpness": 99.884521484375
+                },
+                "Confidence": 99.99425506591797
+            }
+        }
+    ],
+    "OrientationCorrection": "ROTATE_0",
+    "FaceModelVersion": "3.0"
+}
+
+# index Tony image
+aws rekognition index-faces --image '{"S3Object":{"Bucket":"w251-faces-demo","Name":"tony1"}}' --collection-id demo --detection-attributes ALL --external-image-id tony1
+
+# upload the second image of Andy to try to match against the first. This is only necessary when using the command line client. when using an official SDK, you can the base64-encoded byte stream directly when performing the rekognition
+aws s3api put-object --bucket w251-faces-demo --key andy2 --body andy2.jpg
+{
+    "ETag": "\"3330a44f1b4e19cace70257f30cdfb93\""
+}
+
+# see if it can recognize andy2 as the same as andy1. it works!
+aws rekognition search-faces-by-image --collection-id demo --max-faces 1 --image '{"S3Object":{"Bucket":"w251-faces-demo","Name":"andy2"}}'
+{
+    "SearchedFaceBoundingBox": {
+        "Width": 0.3316294848918915,
+        "Height": 0.3316294848918915,
+        "Left": 0.14960728585720062,
+        "Top": 0.07605037093162537
+    },
+    "SearchedFaceConfidence": 99.92827606201172,
+    "FaceMatches": [
+        {
+            "Similarity": 99.41110229492188,
+            "Face": {
+                "FaceId": "bf639e7a-2980-49f1-8fe8-432eb7298eaf",
+                "BoundingBox": {
+                    "Width": 0.5341799855232239,
+                    "Height": 0.5341799855232239,
+                    "Left": 0.15039099752902985,
+                    "Top": 0.14746099710464478
+                },
+                "ImageId": "a12ec0ab-9483-532b-8bfd-92422abd415a",
+                "ExternalImageId": "andy1",
+                "Confidence": 99.99430084228516
+            }
+        }
+    ],
+    "FaceModelVersion": "3.0"
+}
