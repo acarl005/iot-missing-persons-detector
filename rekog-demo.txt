@@ -1,4 +1,4 @@
-# create the S3 bucket to store images
+# create the S3 bucket to store images. specify a region where rekognition is actually available
 aws s3api create-bucket --bucket w251-faces-demo --region us-west-2 --create-bucket-configuration LocationConstraint=us-west-2
 {
     "Location": "http://w251-faces-demo.s3.amazonaws.com/"
