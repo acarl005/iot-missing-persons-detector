@@ -34,7 +34,7 @@ case_metadata_path = base_url + "/api/CaseSets/NamUs/MissingPersons/Cases/"
 if os.path.exists('namus_progress'):
     with open('namus_progress', 'r') as progress:
         last_finished_id = int(progress.read())
-    index_to_resume = ids.index(last_finished_id)
+    index_to_resume = ids.index(last_finished_id) + 1
     ids_to_download = ids[index_to_resume:]    
 else:
     ids_to_download = ids
