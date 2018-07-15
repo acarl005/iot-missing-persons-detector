@@ -44,8 +44,10 @@ for id in ids_to_download:
     print(id)
     case_url = case_metadata_path + str(id)
     metadata_resp = requests.get(case_url, verify = False)
+    # if it doesn't actually exist, skip it
     if metadata_resp.status_code == 404:
         print(404)
+    # if the response code is 200, success! lets download the image
     elif metadata_resp.status_code < 300:
         metadata = metadata_resp.json()
     
@@ -65,9 +67,11 @@ for id in ids_to_download:
             # upload the image to our S3 bucket
             bucket.upload_file('namus/' + image_filename,
                                image_filename)
+    # all other codes are some other error, so lets raise the error
     else:
         metadata_resp.raise_for_status()
     
+    # save to the progress file to indicate that we're done with this person
     with open('namus_progress', 'w') as progress:
         progress.write(str(id))
 
