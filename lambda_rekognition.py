@@ -74,7 +74,7 @@ def lambda_handler(event, context):
                 #hardcode in ID for testing purposes
                 if externalid == 66666:
                     msg += "test subject Andrew Carlson."
-                if externalid == 66667:
+                elif externalid == 66667:
                     msg += 'test subject Michelle Liu.'
                 else:
                     try:
