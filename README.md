@@ -52,7 +52,7 @@ There are two buckets, one for **ingestion** and one for **detection**. In the i
 </br></br>
 All the application logic is implemented in two lambdas. The first is triggered during the scraping process. When a new photo is added to S3, a lambda adds the new face to an index in AWS Rekognition. The other lambda triggers on uploads to the other bucket. This takes any detected face and submits it to Rekognition in a search operation to see if it can find matches in our index. If it can, it calls AWS Simple Notification Service (SNS) to send a text message to the team.
 
-* [**Rekognition.**](https://aws.amazon.com/rekognition/) Amazon Rekognition is a collection of pre-trained machine learning models exposed as a service. The model we used is a facial recognition model which can perform object detection to first find faces in photos, and then encode faces into a vector known as “embeddings”. These embeddings are a very compact numerical encoding for a face which is “learned” during the training process. During indexing, it is actually the embeddings which are stored in an index. On each query, the photo is converted to its embeddings and searched against the known embeddings of all the missing persons’ faces. This is how over 20,000 images can be searched in real-time.
+* [**Rekognition.**](https://aws.amazon.com/rekognition/) Amazon Rekognition is a collection of pre-trained machine learning models exposed as a service. The model we used is a [facial recognition model](https://aws.amazon.com/blogs/machine-learning/build-your-own-face-recognition-service-using-amazon-rekognition/) which can perform object detection to first find faces in photos, and then encode faces into a vector known as “embeddings”. These embeddings are a very compact numerical encoding for a face which is “learned” during the training process. During indexing, it is actually the embeddings which are stored in an index. On each query, the photo is converted to its embeddings and searched against the known embeddings of all the missing persons’ faces. This is how over 20,000 images can be searched in real-time.
 
 * [**DynamoDB.**](https://aws.amazon.com/dynamodb/) DynamoDB is Amazon’s configurable, scalable document store. We use it to store history of when notifications are sent. This is primarily to address the problem of notification “bursts”. When a subject remains in the viewport of the DeepLens for a sustained period of time, many uploads are sent in rapid succession. If that person is a match and texts are sent every time, it leads to an irritating experience. This is prevented by persisting this information in DynamoDB, so the lambda can avoid sending too many repeat notifications.
 
@@ -62,7 +62,7 @@ All the application logic is implemented in two lambdas. The first is triggered 
 
 * [**DeepLens.**](https://aws.amazon.com/deeplens/) AWS DeepLens is a wireless deep learning enabled video camera that is integrated with the AWS Cloud. The DeepLens camera uses [deep convolutional neural networks](https://gluon.mxnet.io/chapter04_convolutional-neural-networks/cnn-scratch.html) to analyze visual imagery in real time. DeepLens runs Ubuntu OS and is preloaded with the [Greengrass Core](https://aws.amazon.com/greengrass/), where you can deploy either a pre-trained or custom deep learning models that can detect faces, objects, activities, texts, and much more.
 </br></br>
-Our project leverages the pre-trained model template for face-detection functionality. In the AWS DeepLens console, we created a project with the face detection template. The AWS console provides the default model with a Lambda function that come with the project template. We updated the lambda function so that when the device detects human faces, the project stream containing the frame is extracted, and the face is cropped out and sent as a JSON message IoT. Next, we created a rule in IoT to upload the image to an S3 bucket through another Lambda call if the confidence level of a face detection is over 80%.
+Our project leverages the [pre-trained model template for face-detection functionality](https://github.com/darwaishx/Deep-Learning-With-Deep-Lens/tree/master/4-FaceDetectionAndVerification/1-FaceDetection). In the AWS DeepLens console, we created a project with the face detection template. The AWS console provides the default model with a Lambda function that come with the project template. We updated the lambda function so that when the device detects human faces, the project stream containing the frame is extracted, and the face is cropped out and sent as a JSON message IoT. Next, we created a rule in IoT to upload the image to an S3 bucket through another Lambda call if the confidence level of a face detection is over 80%.
 </br></br>
 Once the project is deployed to the DeepLens device, the project output can be viewed on screen. Below is an example of the project stream:
 
@@ -88,7 +88,7 @@ The indexer was able to find a face in about 94% of the images. Photos work best
 
 |![facedetected1](100-0.jpg)|![facedetected2](10206-0.jpg)|![nofacedetected](rekognition-fail.jpg)|
 |:---:|:---:|:---:|
-|Face detected | Face detected | **No** face detected | 
+|Face detected | Face detected | **No** face detected |
 
 ### Face comparison via Rekognition<a name="comparison"></a>
 
