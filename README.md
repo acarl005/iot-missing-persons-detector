@@ -1,7 +1,7 @@
 # IoT and Facial Recognition at Scale: Using Amazon’s DeepLens to search for matches from the US’s Missing Persons Database
 
 Andrew Carlson, Vicki Foss, Gerard Kelly, Michelle Liu  
-MIDS W251: Scaling Up! Really Big Data 
+MIDS W251: Scaling Up! Really Big Data  
 University of California, Berkeley  
 August 2018
 
