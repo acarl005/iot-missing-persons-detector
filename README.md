@@ -11,7 +11,7 @@ Repo for W251 final project, for which we have created a cloud-based system whci
 ![system diagram](system-diagram.png) 
 
 ## File Descriptions
-- [IoT and Facial Recognition at Scale - Carlson, Foss, Kelly, Liu.pdf](https://github.com/acarl005/iot-missing-persons-detector/blob/master/IoT%20and%20Facial%20Recognition%20at%20Scale%20-%20Carlson%2C%20Foss%2C%20Kelly%2C%20Liu.pdf) - final paper
+- [IoT and Facial Recognition at Scale - Carlson, Foss, Kelly, Liu.pdf](https://github.com/acarl005/iot-missing-persons-detector/blob/master/IoT%20and%20Facial%20Recognition%20at%20Scale%20-%20Carlson%2C%20Foss%2C%20Kelly%2C%20Liu.pdf) - Final paper
 
 - [src/ingest/](https://github.com/acarl005/iot-missing-persons-detector/tree/master/src/ingest) - Directory containing scripts for ingesting and indexing NamUs data
 
