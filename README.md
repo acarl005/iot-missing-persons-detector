@@ -15,7 +15,7 @@ Repo for W251 final project, for which we have created a cloud-based system whci
 
 - [src/ingest/](https://github.com/acarl005/iot-missing-persons-detector/tree/master/src/ingest) - Directory containing scripts for ingesting and indexing NamUs data
 
-- [src/lambda_rekognition.py](https://github.com/acarl005/iot-missing-persons-detector/blob/master/src/lambda_rekognition.py) - Lambda script which manages the DeepLens face detection, match identification, and alert processes.
+- [src/lambda_rekognition.py](https://github.com/acarl005/iot-missing-persons-detector/blob/master/src/lambda_rekognition.py) - Lambda script which manages the DeepLens face detection, match identification, and alert processes
 
 - [rekog-demo.txt](https://github.com/acarl005/iot-missing-persons-detector/blob/master/rekog-demo.txt) - Amazon Rekognition demo
 
