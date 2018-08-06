@@ -58,12 +58,14 @@ def lambda_handler(event, context):
             response = dynamodb.get_item(TableName='person_detected', Key={'faceID':{'S':str(externalid)}})
             update_flag = 0
             
-            if response['Item']: #key exist already
-                item_timestamp = response['Item']['TimeDetected']['S']
-                # only update the DB if at least 1 min have passed since last detected
-                if abs(int(datetime.datetime.now().strftime('%s')) - int(item_timestamp)) > 60: 
-                    update_flag = 1
-            else:
+            try:
+                if response['Item']: #key exist already
+                    item_timestamp = response['Item']['TimeDetected']['S']
+                    # only update the DB if at least 1 min have passed since last detected
+                    if abs(int(datetime.datetime.now().strftime('%s')) - int(item_timestamp)) > 60: 
+                        update_flag = 1
+            except:
+                print('New person detected!')
                 update_flag = 1
             
             if (update_flag == 1):
