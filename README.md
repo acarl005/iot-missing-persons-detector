@@ -6,7 +6,7 @@ University of California, Berkeley
 August 2018
 
 ## About
-Repo for W251 final project, for which we have created a cloud-based system whcih uses the [AWS DeepLens](https://aws.amazon.com/deeplens/) as an edge device to identify test subjects and pictures of people in the US's National Missing and Unidentified Persons System ([NamUs](https://www.namus.gov/About)) database, and which sends a text message alert with the person’s information upon finding a match.
+Repo for W251 final project, for which we have created a cloud-based system which uses the [AWS DeepLens](https://aws.amazon.com/deeplens/) as an edge device to identify test subjects and pictures of people in the US's National Missing and Unidentified Persons System ([NamUs](https://www.namus.gov/About)) database, and which sends a text message alert with the person’s information upon finding a match.
 
 ![system diagram](system-diagram.png) 
 
