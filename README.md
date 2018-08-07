@@ -13,6 +13,8 @@ Repo for W251 final project, for which we have created a cloud-based system whic
 ## File Descriptions
 - [IoT and Facial Recognition at Scale - Carlson, Foss, Kelly, Liu.pdf](https://github.com/acarl005/iot-missing-persons-detector/blob/master/IoT%20and%20Facial%20Recognition%20at%20Scale%20-%20Carlson%2C%20Foss%2C%20Kelly%2C%20Liu.pdf) - Final paper
 
+- [Project Presentation Slides.pdf](https://github.com/acarl005/iot-missing-persons-detector/blob/master/Project%20Presentation%20Slides.pdf) - Slides used for in-class presentation of final project + results
+
 - [src/ingest/](https://github.com/acarl005/iot-missing-persons-detector/tree/master/src/ingest) - Directory containing scripts for ingesting and indexing NamUs data
 
 - [src/deeplens_face_detection.py](https://github.com/acarl005/iot-missing-persons-detector/blob/master/src/deeplens_face_detection.py) - Lambda script for managing the DeepLens face detection
