@@ -54,14 +54,14 @@ def lambda_handler(event, context):
             externalid = int(result['FaceMatches'][0]['Face']['ExternalImageId'])
             prob = result['FaceMatches'][0]['Similarity']
             
-            # See if the faceID exist in the DynamoDB already
+            # See if the faceID exists in the DynamoDB already
             response = dynamodb.get_item(TableName='person_detected', Key={'faceID':{'S':str(externalid)}})
             update_flag = 0
             
             try:
                 if response['Item']: #key exist already
                     item_timestamp = response['Item']['TimeDetected']['S']
-                    # only update the DB if at least 1 min have passed since last detected
+                    # only update the DB if at least 1 min has passed since last detected
                     if abs(int(datetime.datetime.now().strftime('%s')) - int(item_timestamp)) > 60: 
                         update_flag = 1
             except:
@@ -99,7 +99,7 @@ def lambda_handler(event, context):
                         msg += 'missing person {}'.format(externalid)
                 
                 #Send a text message to alert the user of the match 
-                number = '+16262263799'
+                number = '+15555555555'  # Replace with actual phone number
                 sns.publish(PhoneNumber = number, Message=msg )
             
         else:
